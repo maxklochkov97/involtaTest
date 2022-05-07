@@ -18,6 +18,7 @@
 		5FFD9AE0282645E7004FC879 /* ErrorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9ADF282645E7004FC879 /* ErrorTableViewCell.swift */; };
 		5FFD9AE928267CF8004FC879 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9AE828267CF8004FC879 /* NetworkManager.swift */; };
 		5FFD9AEC28268AEB004FC879 /* TapTryAgainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9AEB28268AEB004FC879 /* TapTryAgainDelegate.swift */; };
+		5FFE84712826E7ED00BE1E15 /* ModelMessagesCountDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE84702826E7ED00BE1E15 /* ModelMessagesCountDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		5FFD9ADF282645E7004FC879 /* ErrorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTableViewCell.swift; sourceTree = "<group>"; };
 		5FFD9AE828267CF8004FC879 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5FFD9AEB28268AEB004FC879 /* TapTryAgainDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapTryAgainDelegate.swift; sourceTree = "<group>"; };
+		5FFE84702826E7ED00BE1E15 /* ModelMessagesCountDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelMessagesCountDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				5FFD9AE828267CF8004FC879 /* NetworkManager.swift */,
+				5FFE84702826E7ED00BE1E15 /* ModelMessagesCountDelegate.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				5F5E10AC2825701C00572001 /* MessageTableViewCell.swift in Sources */,
 				5F42F2ED28257BE5006B1396 /* ModelMessages.swift in Sources */,
 				5FFD9AE928267CF8004FC879 /* NetworkManager.swift in Sources */,
+				5FFE84712826E7ED00BE1E15 /* ModelMessagesCountDelegate.swift in Sources */,
 				5FFD9AE0282645E7004FC879 /* ErrorTableViewCell.swift in Sources */,
 				5F5E109828256F2C00572001 /* AppDelegate.swift in Sources */,
 				5FFD9AEC28268AEB004FC879 /* TapTryAgainDelegate.swift in Sources */,

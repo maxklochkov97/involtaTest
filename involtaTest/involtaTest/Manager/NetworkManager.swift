@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 enum TableViewError: Error {
   case error(Error)
   case parseError
@@ -15,40 +14,53 @@ enum TableViewError: Error {
 
 class NetworkManager {
     private var baseURL = "https://numero-logy-app.org.in/"
-    private lazy var messagesURL = "getMessages?offset=\(offsetURL)"
+    private lazy var messagesURL = "getMessages?offset=0"
+    var isPagination = false
 
-    var offsetURL = 0
+    weak var vcDelegate: ModelMessagesCountDelegate?
+
     var uploadedMessages: [String]?
 
-    func fetchMessage(completionHandler: @escaping (Result<Messages, Error>) -> Void) {
+    func fetchMessage(pagination: Bool = false, completionHandler: @escaping (Result<Messages, Error>) -> Void) {
 
-        guard let url = URL(string: baseURL + messagesURL) else { return }
-
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completionHandler(.failure(error))
-            } else {
-                do {
-                    let currentMessages = try JSONDecoder().decode(Messages.self, from: data!)
-                    completionHandler(.success(currentMessages))
-                } catch {
-                    completionHandler(.failure(error))
-                }
+        if pagination {
+            if let offset = self.vcDelegate?.modelMessages.count {
+                self.messagesURL = "getMessages?offset=\(offset)"
+                print("Тут значение \(offset)")
             }
-        }.resume()
+            isPagination = true
+        }
+
+        DispatchQueue.global().asyncAfter(deadline: .now() + (pagination ? 3 : 1), execute: {
+            guard let url = URL(string: self.baseURL + self.messagesURL) else { return }
+
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let error = error {
+                    completionHandler(.failure(error))
+                } else {
+                    do {
+                        let currentMessages = try JSONDecoder().decode(Messages.self, from: data!)
+                        let newValue = try JSONDecoder().decode(Messages.self, from: data!)
+                        completionHandler(.success(pagination ? newValue : currentMessages))
+
+                        if pagination {
+                            self.isPagination = false
+                        }
+
+                    } catch {
+                        print("Что-то не так в \(#function)")
+                        completionHandler(.failure(error))
+                    }
+                }
+            }.resume()
+        })
     }
 
-    func fetchMessageList(completionHandler: @escaping (Result<[String], Error>) -> Void) {
-        fetchMessage(completionHandler: { result in
+    func fetchMessageList(pagination: Bool = false, completionHandler: @escaping (Result<[String], Error>) -> Void) {
+        fetchMessage(pagination: pagination, completionHandler: { result in
         completionHandler(result.map({ company in
-            company.messageList
+            company.messageList.reversed()
         }))
       })
     }
 }
-
-/*
- DispatchQueue.main.async {
- tableView.reloadData()
- }
- */

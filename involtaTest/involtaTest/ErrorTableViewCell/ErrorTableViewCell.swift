@@ -16,20 +16,10 @@ class ErrorTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 18)
         label.text = "Server is temporarily unavailable.\nTry downloading the data later."
-        label.textColor = .white
+        label.textColor = .label
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
-    }()
-
-    private let spinnerImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "spinner"))
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.masksToBounds = false
-        imageView.clipsToBounds = true
-        imageView.isUserInteractionEnabled = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
     }()
 
     private let tryAgainButton: UIButton = {
@@ -58,8 +48,7 @@ class ErrorTableViewCell: UITableViewCell {
     }
 
     private func setupView() {
-        self.contentView.backgroundColor = .lightGray
-        spinnerImageView.rotate(duration: 3)
+        self.contentView.backgroundColor = .systemGray6
     }
 
     private func layout() {
@@ -68,11 +57,6 @@ class ErrorTableViewCell: UITableViewCell {
         let offset: CGFloat = 16
 
         NSLayoutConstraint.activate([
-//            spinnerImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: offset),
-//            spinnerImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-//            spinnerImageView.widthAnchor.constraint(equalToConstant: 50),
-//            spinnerImageView.heightAnchor.constraint(equalTo: spinnerImageView.widthAnchor, multiplier: 1),
-
             errorTextLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: offset),
             errorTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: offset),
             errorTextLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -offset),
