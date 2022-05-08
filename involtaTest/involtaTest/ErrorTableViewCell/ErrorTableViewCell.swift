@@ -10,6 +10,7 @@ import UIKit
 class ErrorTableViewCell: UITableViewCell {
 
     weak var tapTryAgainDelegate: TapTryAgainDelegate?
+    weak var modelCountDelegate: ModelMessagesCountDelegate?
 
     private let errorTextLabel: UILabel = {
         let label = UILabel()
@@ -43,8 +44,7 @@ class ErrorTableViewCell: UITableViewCell {
     }
 
     @objc private func tryAgainAction() {
-        print(#function)
-        tapTryAgainDelegate?.loadMessageFromServer()
+        tapTryAgainDelegate?.loadMessageFromServer(isFirstRequest: false)
     }
 
     private func setupView() {
@@ -65,8 +65,7 @@ class ErrorTableViewCell: UITableViewCell {
             tryAgainButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: offset),
             tryAgainButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -offset),
             tryAgainButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -offset),
-            tryAgainButton.heightAnchor.constraint(equalToConstant: 50),
-
+            tryAgainButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
 }

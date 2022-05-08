@@ -31,8 +31,11 @@ class MessageViewController: UIViewController {
     
     @objc func refresh(sender: UIRefreshControl) {
         guard !networkManager.isPagination else { return }
+
         self.networkManager.fetchMessageList(pagination: true) { [weak self] result in
-            
+
+            guard let oldMessageCount = self?.modelMessages.count else { return }
+
             switch result {
             case .success(let moreData):
                 self?.modelMessages.insert(contentsOf: moreData, at: 0)
@@ -43,30 +46,31 @@ class MessageViewController: UIViewController {
             }
             
             DispatchQueue.main.async {
+                guard let newMessageCount = self?.modelMessages.count else { return }
+                let row = newMessageCount - oldMessageCount
+                let indexPath = IndexPath(row: row, section: 0)
+
                 self?.tableView.reloadData()
+                self?.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
                 sender.endRefreshing()
             }
         }
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         layout()
+        loadMessageFromServer(isFirstRequest: true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        loadMessageFromServer()
-    }
-
     private func setupView() {
         networkManager.vcDelegate = self
         tableView.refreshControl = refreshControl
         view.backgroundColor = .systemBackground
     }
     
-    func loadMessageFromServer() {
+    func loadMessageFromServer(isFirstRequest: Bool) {
         networkManager.fetchMessageList(completionHandler: { [weak self] answer in
             switch answer {
             case .success(let messages):
@@ -78,7 +82,17 @@ class MessageViewController: UIViewController {
             }
             
             DispatchQueue.main.async {
-                self?.tableView.reloadData()
+                if isFirstRequest {
+                    guard let messageCount = self?.modelMessages.count else { return }
+                    let indexPath = IndexPath(row: messageCount == 0 ? 0 : messageCount - 1, section: 0)
+                    self?.tableView.reloadData()
+                    self?.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+                } else {
+                    let indexPath = IndexPath(row: 0, section: 0)
+                    print("Сработал повторный запрос")
+                    self?.tableView.reloadData()
+                    self?.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+                }
             }
         })
     }

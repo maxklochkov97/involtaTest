@@ -8,8 +8,8 @@
 import UIKit
 
 enum TableViewError: Error {
-  case error(Error)
-  case parseError
+    case error(Error)
+    case parseError
 }
 
 class NetworkManager {
@@ -26,7 +26,6 @@ class NetworkManager {
         if pagination {
             if let offset = self.vcDelegate?.modelMessages.count {
                 self.messagesURL = "getMessages?offset=\(offset)"
-                print("Тут значение \(offset)")
             }
             isPagination = true
         }
@@ -58,9 +57,9 @@ class NetworkManager {
 
     func fetchMessageList(pagination: Bool = false, completionHandler: @escaping (Result<[String], Error>) -> Void) {
         fetchMessage(pagination: pagination, completionHandler: { result in
-        completionHandler(result.map({ company in
-            company.messageList.reversed()
-        }))
-      })
+            completionHandler(result.map({ company in
+                company.messageList.reversed()
+            }))
+        })
     }
 }

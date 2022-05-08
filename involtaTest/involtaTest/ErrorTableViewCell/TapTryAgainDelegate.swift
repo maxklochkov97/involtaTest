@@ -8,5 +8,5 @@
 import Foundation
 
 protocol TapTryAgainDelegate: AnyObject {
-    func loadMessageFromServer()
+    func loadMessageFromServer(isFirstRequest: Bool)
 }
