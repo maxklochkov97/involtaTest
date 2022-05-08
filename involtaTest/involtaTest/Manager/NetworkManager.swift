@@ -7,24 +7,19 @@
 
 import UIKit
 
-enum TableViewError: Error {
-    case error(Error)
-    case parseError
-}
-
 class NetworkManager {
     private var baseURL = "https://numero-logy-app.org.in/"
     private lazy var messagesURL = "getMessages?offset=0"
     var isPagination = false
 
-    weak var vcDelegate: ModelMessagesCountDelegate?
+    weak var messagesCountDelegate: ModelMessagesCountDelegate?
 
     var uploadedMessages: [String]?
 
     func fetchMessage(pagination: Bool = false, completionHandler: @escaping (Result<Messages, Error>) -> Void) {
 
         if pagination {
-            if let offset = self.vcDelegate?.modelMessages.count {
+            if let offset = self.messagesCountDelegate?.modelMessages.count {
                 self.messagesURL = "getMessages?offset=\(offset)"
             }
             isPagination = true

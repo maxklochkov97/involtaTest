@@ -11,7 +11,6 @@ class MessageViewController: UIViewController {
     
     var modelMessages = [String]()
     private var networkManager = NetworkManager()
-    private var tableViewError: Error?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -19,7 +18,7 @@ class MessageViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(MessageTableViewCell.self, forCellReuseIdentifier: MessageTableViewCell.identifier)
-        tableView.register(ErrorTableViewCell.self, forCellReuseIdentifier: ErrorTableViewCell.identifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.identifier)
         return tableView
     }()
     
@@ -39,10 +38,8 @@ class MessageViewController: UIViewController {
             switch result {
             case .success(let moreData):
                 self?.modelMessages.insert(contentsOf: moreData, at: 0)
-                self?.tableViewError = nil
-            case.failure(let error):
-                self?.tableViewError = TableViewError.error(error)
-                print("Что-то не так в \(#function)")
+            case.failure(_):
+                break
             }
             
             DispatchQueue.main.async {
@@ -65,7 +62,7 @@ class MessageViewController: UIViewController {
     }
     
     private func setupView() {
-        networkManager.vcDelegate = self
+        networkManager.messagesCountDelegate = self
         tableView.refreshControl = refreshControl
         view.backgroundColor = .systemBackground
     }
@@ -75,10 +72,10 @@ class MessageViewController: UIViewController {
             switch answer {
             case .success(let messages):
                 self?.modelMessages.insert(contentsOf: messages, at: 0)
-                self?.tableViewError = nil
-            case.failure(let error):
-                self?.tableViewError = TableViewError.error(error)
-                print("Что-то не так в \(#function)")
+            case.failure(_):
+                DispatchQueue.main.async {
+                    self?.addAlert()
+                }
             }
             
             DispatchQueue.main.async {
@@ -89,12 +86,21 @@ class MessageViewController: UIViewController {
                     self?.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
                 } else {
                     let indexPath = IndexPath(row: 0, section: 0)
-                    print("Сработал повторный запрос")
                     self?.tableView.reloadData()
                     self?.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
                 }
             }
         })
+    }
+
+    @objc private func addAlert() {
+        let alert = UIAlertController(title: "Server unavailable!", message: "Try downloading the data later...", preferredStyle: .alert)
+        let okAlert = UIAlertAction(title: "Reload", style: .default) { _ in
+            self.dismiss(animated: true)
+            self.loadMessageFromServer(isFirstRequest: false)
+        }
+        alert.addAction(okAlert)
+        present(alert, animated: true)
     }
     
     private func layout() {
@@ -114,7 +120,7 @@ class MessageViewController: UIViewController {
 extension MessageViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableViewError != nil {
+        if modelMessages.count == 0 {
             return 1
         } else {
             return modelMessages.count
@@ -123,7 +129,7 @@ extension MessageViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if tableViewError == nil {
+        if modelMessages.count != 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MessageTableViewCell.identifier, for: indexPath) as? MessageTableViewCell else {
                 return UITableViewCell()
             }
@@ -132,12 +138,13 @@ extension MessageViewController: UITableViewDataSource {
             cell.selectionStyle = .none
             cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
             return cell
-            
         } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ErrorTableViewCell.identifier, for: indexPath) as? ErrorTableViewCell else {
-                return UITableViewCell()
-            }
-            cell.tapTryAgainDelegate = self
+            let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath )
+            cell.textLabel?.text = "Loading data..."
+            cell.textLabel?.textColor = .label
+            cell.selectionStyle = .none
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.textAlignment = .center
             return cell
         }
     }
@@ -149,9 +156,6 @@ extension MessageViewController: UITableViewDelegate {
         return UITableView.automaticDimension
     }
 }
-
-// MARK: - TapTryAgainDelegate
-extension MessageViewController: TapTryAgainDelegate {}
 
 // MARK: - ModelMessagesCountDelegate
 extension MessageViewController: ModelMessagesCountDelegate {}

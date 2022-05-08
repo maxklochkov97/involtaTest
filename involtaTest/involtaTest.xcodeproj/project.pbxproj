@@ -15,9 +15,7 @@
 		5F5E10A428256F2E00572001 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F5E10A228256F2E00572001 /* LaunchScreen.storyboard */; };
 		5F5E10AC2825701C00572001 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5E10AB2825701C00572001 /* MessageTableViewCell.swift */; };
 		5F5E10AE2825718500572001 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5E10AD2825718500572001 /* Extension+UIView.swift */; };
-		5FFD9AE0282645E7004FC879 /* ErrorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9ADF282645E7004FC879 /* ErrorTableViewCell.swift */; };
 		5FFD9AE928267CF8004FC879 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9AE828267CF8004FC879 /* NetworkManager.swift */; };
-		5FFD9AEC28268AEB004FC879 /* TapTryAgainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFD9AEB28268AEB004FC879 /* TapTryAgainDelegate.swift */; };
 		5FFE84712826E7ED00BE1E15 /* ModelMessagesCountDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFE84702826E7ED00BE1E15 /* ModelMessagesCountDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,9 +30,7 @@
 		5F5E10A528256F2E00572001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F5E10AB2825701C00572001 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		5F5E10AD2825718500572001 /* Extension+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
-		5FFD9ADF282645E7004FC879 /* ErrorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTableViewCell.swift; sourceTree = "<group>"; };
 		5FFD9AE828267CF8004FC879 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		5FFD9AEB28268AEB004FC879 /* TapTryAgainDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapTryAgainDelegate.swift; sourceTree = "<group>"; };
 		5FFE84702826E7ED00BE1E15 /* ModelMessagesCountDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelMessagesCountDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,13 +64,12 @@
 		5F5E109628256F2C00572001 /* involtaTest */ = {
 			isa = PBXGroup;
 			children = (
-				5FFD9AE728267CB3004FC879 /* Manager */,
-				5F5E109928256F2C00572001 /* SceneDelegate.swift */,
 				5F5E109728256F2C00572001 /* AppDelegate.swift */,
-				5FFD9AE528267B98004FC879 /* Extensions */,
+				5F5E109928256F2C00572001 /* SceneDelegate.swift */,
 				5FFD9AE628267BC5004FC879 /* Models */,
+				5FFD9AE528267B98004FC879 /* Extensions */,
+				5FFD9AE728267CB3004FC879 /* Manager */,
 				5F5E10AB2825701C00572001 /* MessageTableViewCell.swift */,
-				5FFD9AEA28268AD9004FC879 /* ErrorTableViewCell */,
 				5F5E109B28256F2C00572001 /* MessageViewController.swift */,
 				5F5E10A028256F2E00572001 /* Assets.xcassets */,
 				5F5E10A228256F2E00572001 /* LaunchScreen.storyboard */,
@@ -106,15 +101,6 @@
 				5FFE84702826E7ED00BE1E15 /* ModelMessagesCountDelegate.swift */,
 			);
 			path = Manager;
-			sourceTree = "<group>";
-		};
-		5FFD9AEA28268AD9004FC879 /* ErrorTableViewCell */ = {
-			isa = PBXGroup;
-			children = (
-				5FFD9ADF282645E7004FC879 /* ErrorTableViewCell.swift */,
-				5FFD9AEB28268AEB004FC879 /* TapTryAgainDelegate.swift */,
-			);
-			path = ErrorTableViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,9 +179,7 @@
 				5F42F2ED28257BE5006B1396 /* ModelMessages.swift in Sources */,
 				5FFD9AE928267CF8004FC879 /* NetworkManager.swift in Sources */,
 				5FFE84712826E7ED00BE1E15 /* ModelMessagesCountDelegate.swift in Sources */,
-				5FFD9AE0282645E7004FC879 /* ErrorTableViewCell.swift in Sources */,
 				5F5E109828256F2C00572001 /* AppDelegate.swift in Sources */,
-				5FFD9AEC28268AEB004FC879 /* TapTryAgainDelegate.swift in Sources */,
 				5F5E109A28256F2C00572001 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
